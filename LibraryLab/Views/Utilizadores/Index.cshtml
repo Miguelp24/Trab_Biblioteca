@@ -1,0 +1,67 @@
+﻿@model IEnumerable<LibraryLab.Models.Utilizador>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Utilizadores</h1>
+
+<p>
+    <a asp-action="Create">Criar Admin</a>
+</p>
+<p>
+    <a asp-action="Activate">Ativar Bibliotecários (@ViewBag.InativosCount)</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                Cargo
+            </th>
+            <th>
+                Bloqueado
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr class="@(item.IsActivated ? "" : "table-warning")">
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsBlocked)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                @if(item.IsBlocked == false){
+                    <a asp-action="Block" asp-route-id="@item.Id">Bloquear</a> 
+                }
+                else{
+                    <a asp-action="Unblock" asp-route-id="@item.Id">Desbloquear</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

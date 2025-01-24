@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LibraryLab</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LibraryLab.styles.css" asp-append-version="true" />
+    <style>
+        .footer-text {
+            font-size: 0.875rem; /* Smaller font size */
+            line-height: 1.2; /* Reduced line height */
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/ImagemBiblio/biblioLei.png" alt="Biblioteca LEI" style="width: 100px; height: auto; margin-right: 10px;">
+                    Biblioteca LEI
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @* <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li> *@
+                        @if (User.IsInRole("Leitor"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Historico">Histórico</a>
+
+                            </li>
+                        }
+                        @if (User.IsInRole("Bibliotecario"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Livro">Livros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Generoes">Géneros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Autor">Autores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Requisitar">Requisições</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Utilizadores">Utilizadores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TabelaBiblios">Biblioteca</a>
+                            </li>
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <br />
+    <br />
+    <br />
+    @{
+        var currentUrl = Context.Request.Path.Value.ToLower();
+        var isHomePage = string.IsNullOrWhiteSpace(currentUrl) || currentUrl == "/";
+    }
+
+    @if (isHomePage)
+    {
+        <footer class="footer text-muted">
+            <div class="container">
+                <div class="row footer-text">
+                    @if (Model != null && Model.TabelaBiblio != null)
+                    {
+                        @foreach (var biblio in Model.TabelaBiblio)
+                        {
+                            <div class="col-md-3">
+                                <h6>Localização:</h6>
+                                <p>@biblio.Localizacao</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h6>Email:</h6>
+                                <p>@biblio.Email</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h6>Tel.:</h6>
+                                <p>@biblio.Telefone</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h6>Horário:</h6>
+                                <p>@biblio.Horario_abertura h - @biblio.Horario_fecho h</p>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-center">Nenhuma informação de biblioteca disponível.</p>
+                    }
+                </div>
+            </div>
+        </footer>
+    }
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+	<script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

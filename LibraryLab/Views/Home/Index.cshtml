@@ -1,0 +1,83 @@
+﻿@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+    int itemsPerPage = 10;
+    int currentPage = ViewData["CurrentPage"] != null ? (int)ViewData["CurrentPage"] : 1;
+    int totalItems = Model.Livro.Count(l => l.Estado && l.Num_exemplares != 0);
+    int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+}
+
+<div class="text-center">
+    <form method="get" asp-action="Index" id="filterForm">
+        <div class="d-flex flex-column align-items-start">
+            <div class="d-flex">
+                <input type="text" name="searchString" class="form-control" style="width: 400px;" placeholder="Pesquisar pelo nome do Livro ou pelo Autor" value="@ViewData["CurrentFilter"]" />
+                <button type="submit" class="btn btn-primary ms-2">Pesquisar</button>
+            </div>
+            <div class="dropdown mt-2">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filtro
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#" onclick="document.getElementById('genreId').value=''; document.getElementById('filterForm').submit();">Todos os Gêneros</a></li>
+                    @foreach (var genre in Model.Genres)
+                    {
+                        <li><a class="dropdown-item" href="#" onclick="document.getElementById('genreId').value='@genre.Id'; document.getElementById('filterForm').submit();">@genre.Name</a></li>
+                    }
+                </ul>
+            </div>
+            <input type="hidden" id="genreId" name="genreId" value="@ViewData["SelectedGenreId"]" />
+        </div>
+    </form>
+    <br />
+</div>
+
+<div class="container">
+    <div class="row">
+        @if (!Model.Livro.Any())
+        {
+            <div class="col-12">
+                <p class="text-center" style="font-size: 24px;"><strong>Nenhum livro disponível</strong></p>
+            </div>
+        }
+        else
+        {
+            var booksToShow = Model.Livro.Where(l => l.Estado && l.Num_exemplares != 0)
+                                         .Skip((currentPage - 1) * itemsPerPage)
+                                         .Take(itemsPerPage)
+                                         .ToList();
+            int count = 0;
+            foreach (var livro in booksToShow)
+            {
+                if (count % 5 == 0)
+                {
+                    @: </div><div class="row">
+                }
+                <div class="col-md-2 d-flex align-items-stretch">
+                    <div class="card mb-4 shadow-sm w-100">
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@livro.Id">
+                            <img class="card-img-top" src="~/ImagemLivro/@livro.Image" alt="Image">
+                        </a>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@livro.Titulo</h5>
+                            <p class="card-text">Autor: @livro.Autor.Name</p>
+                        </div>
+                    </div>
+                </div>
+                count++;
+            }
+        }
+    </div>
+ 
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" href="?page=@i&searchString=@ViewData["CurrentFilter"]&genreId=@ViewData["SelectedGenreId"]">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

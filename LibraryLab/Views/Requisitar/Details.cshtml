@@ -1,0 +1,60 @@
+﻿@model LibraryLab.Models.Requisitar
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Detalhes</h1>
+
+<div>
+    <h4>Requisitar</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Bibliotecario
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Bibliotecario.Username)
+        </dd>
+        <dt class="col-sm-2">
+            Bibliotecario que Recebeu
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BibliotecarioRecebe.Username)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Leitor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Leitor.Username)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Livro)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Livro.Titulo)
+        </dd>
+        <dt class = "col-sm-2">
+            Data de Requesição
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DataRequisicao)
+        </dd>
+        <dt class = "col-sm-2">
+           Data e Emprestimo
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DataEmprestimo)
+        </dd>
+        <dt class = "col-sm-2">
+            Data de Devolução
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DataDevolucao)
+        </dd>
+    </dl>
+</div>
+<div>
+    @* <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>  *@
+    <a asp-action="Index">Voltar</a>
+</div>

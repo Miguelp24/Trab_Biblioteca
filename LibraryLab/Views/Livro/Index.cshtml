@@ -1,0 +1,65 @@
+﻿@model IEnumerable<LibraryLab.Models.Livro>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Livros</h1>
+
+<p>
+    <a asp-action="Create">Adicionar Livro</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ISBN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Num_exemplares)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ISBN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Autor.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genero.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Num_exemplares)
+            </td>
+                <td>
+                    <img src="~/ImagemLivro/@item.Image" alt="Image" style="max-width: 100px; max-height: 100px;" />
+                </td>
+            <td>
+                @* <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> | *@
+                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> 
+                @* <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

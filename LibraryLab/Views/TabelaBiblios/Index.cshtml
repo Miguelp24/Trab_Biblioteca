@@ -1,0 +1,65 @@
+﻿@model IEnumerable<LibraryLab.Models.TabelaBiblio>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Informações da Biblioteca</h1>
+
+@* <p>
+    <a asp-action="Create">Create New</a>
+</p> *@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Localizacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Horario_abertura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Horario_fecho)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Localizacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Horario_abertura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Horario_fecho)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Name">Editar</a> 
+               @*  <a asp-action="Details" asp-route-id="@item.Name">Details</a> | *@
+                @* <a asp-action="Delete" asp-route-id="@item.Name">Delete</a> *@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

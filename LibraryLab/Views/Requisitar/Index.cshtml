@@ -1,0 +1,68 @@
+﻿@model IEnumerable<LibraryLab.Models.Requisitar>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Requisições</h1>
+
+@* <p>
+    <a asp-action="Create">Create New</a>
+</p> *@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Leitor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Livro)
+            </th>
+            <th>
+                Data de Requesição
+            </th>
+            <th>
+                Data de Emprestimo
+            </th>
+            <th>
+                Data de Devolução
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Leitor.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Livro.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataRequisicao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataEmprestimo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataDevolucao)
+            </td>
+            <td>
+                @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | *@
+                @if (item.DataEmprestimo == null)
+                {
+                    <a asp-action="Emprestimo" asp-route-id="@item.Id">Empréstimo</a>
+                    <span>|</span>
+                }
+                @if (item.DataDevolucao == null && item.DataEmprestimo != null)
+                {
+                    <a asp-action="Devolucao" asp-route-id="@item.Id">Devolução</a> 
+                    <span>|</span>
+                }
+                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

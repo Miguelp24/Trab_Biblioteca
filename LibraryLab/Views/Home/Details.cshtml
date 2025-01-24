@@ -1,0 +1,67 @@
+﻿@model Livro
+
+@{
+    ViewData["Title"] = "Detalhes do Livro";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img class="img-fluid" src="~/ImagemLivro/@Model.Image" alt="Image">
+            <br />
+            <br />
+            <br />
+
+            <div class="text-center">
+                <a href="/" class="btn btn-primary mt-2" style="font-size: 1.2rem; padding: 10px 20px;">Voltar</a>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h1>@Model.Titulo</h1>
+            <p><strong>Autor:</strong> @Model.Autor?.Name</p>
+            <p><strong>Gênero:</strong> @Model.Genero?.Name</p>
+            <p><strong>ISBN:</strong> @Model.ISBN</p>
+
+            <!-- Sub-menu com abas -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="sinopse-tab" data-bs-toggle="tab" data-bs-target="#sinopse" type="button" role="tab" aria-controls="sinopse" aria-selected="true">Sinopse</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="autor-tab" data-bs-toggle="tab" data-bs-target="#autor" type="button" role="tab" aria-controls="autor" aria-selected="false">Detalhes do Autor</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="sinopse" role="tabpanel" aria-labelledby="sinopse-tab">
+                    <p>@Model.Sinopse</p>
+                </div>
+                <div class="tab-pane fade" id="autor" role="tabpanel" aria-labelledby="autor-tab">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="~/ImagemAutor/@Model.Autor?.Image" alt="@Model.Autor?.Name" class="img-thumbnail me-3" style="width: 150px; height: auto;">
+                        <h4>@Model.Autor?.Name</h4>
+                    </div>
+                    <div style="white-space: pre-wrap; overflow: auto;">
+                        <p>@Model.Autor?.Biography</p>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <br />
+            @if (User.IsInRole("Leitor"))
+            {
+                <form asp-action="Requisitar" method="post">
+                    <input type="hidden" name="livroId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-primary mt-2" style="font-size: 1.5rem; padding: 15px 30px;">Requisitar</button>
+                </form>
+            }
+            @if (User.IsInRole("Bibliotecario"))
+            {
+                <a asp-controller="Livro" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mt-2" style="font-size: 1.5rem; padding: 15px 30px;">Editar</a>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

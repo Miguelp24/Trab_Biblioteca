@@ -1,0 +1,41 @@
+﻿@model IEnumerable<LibraryLab.Models.Utilizador>
+
+
+<table class="table" id="tabela">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <form asp-action="ActivateConfirmed" method="post" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#tabela">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="btn btn-primary">Ativar Bibliotecário</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

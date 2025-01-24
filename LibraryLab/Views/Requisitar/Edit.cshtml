@@ -1,0 +1,59 @@
+﻿@model LibraryLab.Models.Requisitar
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Requisitar</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="BibliotecarioId" class="control-label"></label>
+                <select asp-for="BibliotecarioId" class="form-control" asp-items="ViewBag.BibliotecarioId"></select>
+                <span asp-validation-for="BibliotecarioId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeitorId" class="control-label"></label>
+                <select asp-for="LeitorId" class="form-control" asp-items="ViewBag.LeitorId"></select>
+                <span asp-validation-for="LeitorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LivroId" class="control-label"></label>
+                <select asp-for="LivroId" class="form-control" asp-items="ViewBag.LivroId"></select>
+                <span asp-validation-for="LivroId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataRequisicao" class="control-label"></label>
+                <input asp-for="DataRequisicao" class="form-control" />
+                <span asp-validation-for="DataRequisicao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataEmprestimo" class="control-label"></label>
+                <input asp-for="DataEmprestimo" class="form-control" />
+                <span asp-validation-for="DataEmprestimo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataDevolucao" class="control-label"></label>
+                <input asp-for="DataDevolucao" class="form-control" />
+                <span asp-validation-for="DataDevolucao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

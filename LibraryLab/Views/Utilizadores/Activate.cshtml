@@ -1,0 +1,12 @@
+﻿@model IEnumerable<LibraryLab.Models.Utilizador>
+
+@{
+    ViewData["Title"] = "Activate";
+}
+
+<h1>Bibliotecários por Ativar</h1>
+
+
+<div id="tabela">
+    @await Html.PartialAsync("TabelaAtivar", Model)
+</div>
